@@ -1,42 +1,42 @@
-# Setting and Changing User Agent with Python Requests
+# Python RequestsでUser Agentを設定・変更する方法
 
-[![Bright Data Promo](https://github.com/luminati-io/LinkedIn-Scraper/raw/main/Proxies%20and%20scrapers%20GitHub%20bonus%20banner.png)](https://brightdata.com/)
+[![Bright Data Promo](https://github.com/luminati-io/LinkedIn-Scraper/raw/main/Proxies%20and%20scrapers%20GitHub%20bonus%20banner.png)](https://brightdata.jp/)
 
-This guide explains how to set and rotate the User-Agent header in Python Requests for safe and successful web scraping:
+本ガイドでは、安全かつ成功するWebスクレイピングのために、Python RequestsでUser-Agentヘッダーを設定してローテーションする方法を解説します。
 
-- [Why You Should Always Set the User Agent Header](#why-you-should-always-set-the-user-agent-header)
-- [What Is the Default Requests Python User Agent?](#what-is-the-default-requests-python-user-agent)
-- [How to Change the Python Requests User Agent](#how-to-change-the-python-requests-user-agent)
-- [Implement User Agent Rotation in Requests](#implement-user-agent-rotation-in-requests)
+- [User Agent Headerを常に設定すべき理由](#why-you-should-always-set-the-user-agent-header)
+- [RequestsのデフォルトのPython user agentとは？](#what-is-the-default-requests-python-user-agent)
+- [Python RequestsのUser Agentを変更する方法](#how-to-change-the-python-requests-user-agent)
+- [RequestsでUser Agentローテーションを実装する](#implement-user-agent-rotation-in-requests)
 
-## Why You Should Always Set the User Agent Header
+## User Agent Headerを常に設定すべき理由
 
-The User-Agent HTTP header identifies the client software making the request. It typically includes details about the browser type, operating system, and architecture.
+User-Agent HTTPヘッダーは、リクエストを行うクライアントソフトウェアを識別します。通常、ブラウザの種類、OS、アーキテクチャなどの情報が含まれます。
 
-Here's an example of a Chrome user agent:
+以下はChromeのuser agentの例です。
 
 ```
 Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36
 ```
 
-This string contains:
+この文字列には、以下が含まれています。
 
-* `Mozilla/5.0`: A historical prefix indicating Mozilla compatibility
-* `Windows NT 10.0; Win64; x64`: Operating system, platform, and architecture
-* `AppleWebKit/537.36`: Browser engine
-* `KHTML, like Gecko`: Compatibility indicators
-* `Chrome/125.0.0.0`: Browser name and version
-* `Safari/537.36`: Safari compatibility
+* `Mozilla/5.0`: Mozilla互換性を示す歴史的なプレフィックス
+* `Windows NT 10.0; Win64; x64`: OS、プラットフォーム、アーキテクチャ
+* `AppleWebKit/537.36`: ブラウザエンジン
+* `KHTML, like Gecko`: 互換性を示す指標
+* `Chrome/125.0.0.0`: ブラウザ名とバージョン
+* `Safari/537.36`: Safari互換性
 
-The user agent helps websites determine whether a request comes from a legitimate browser or potentially automated software. Anti-scraping systems often look at this header to identify and block bots, which typically use default or inconsistent user agent strings.
+user agentは、Webサイトがリクエストが正当なブラウザから来ているのか、あるいは自動化ソフトウェアの可能性があるのかを判断するのに役立ちます。アンチスクレイピングシステムは、このヘッダーを見てボットを特定してブロックすることが多く、ボットは通常デフォルトまたは一貫性のないuser agent文字列を使用します。
 
-## What Is the Default Requests Python User Agent?
+## RequestsのデフォルトのPython user agentとは？
 
-The Python Requests library sets a default User-Agent header in the format:
+Python Requestsライブラリは、以下の形式でデフォルトのUser-Agentヘッダーを設定します。
 
 `python-requests/X.Y.Z`
 
-Where X.Y.Z is your installed Requests version. You can verify this by making a test request:
+ここでX.Y.ZはインストールされているRequestsのバージョンです。テストリクエストを送ることで確認できます。
 
 ```python
 import requests
@@ -48,19 +48,19 @@ response = requests.get('https://httpbin.io/user-agent')
 print(response.json())
 ```
 
-The output will look like:
+出力は次のようになります。
 
 ```
 {'user-agent': 'python-requests/2.32.3'}
 ```
 
-This clearly identifies your request as coming from an automated tool rather than a browser, making it easy for websites to detect and block your scraping attempts.
+これは、ブラウザではなく自動化ツールからのリクエストであることを明確に示すため、Webサイトがあなたのスクレイピング試行を検知してブロックしやすくなります。
 
-## How to Change the Python Requests User Agent
+## Python RequestsのUser Agentを変更する方法
 
-### Set a Custom User Agent
+### カスタムUser Agentを設定する
 
-Customize the User-Agent by passing it in the headers dictionary:
+headers辞書に渡してUser-Agentをカスタマイズします。
 
 ```python
 import requests
@@ -84,7 +84,7 @@ response = requests.get('https://httpbin.io/user-agent', headers=headers)
 print(response.json())
 ```
 
-To set a user agent for all requests in a session:
+セッション内のすべてのリクエストに対してuser agentを設定するには、以下のようにします。
 
 ```python
 import requests
@@ -108,11 +108,11 @@ print(response.json())
 # other requests with a custom user agent within the session ...
 ```
 
-This will produce the same output as before.
+これにより、先ほどと同じ出力が得られます。
 
-### Unset the User Agent
+### User Agentを解除する
 
-Although not recommended, you might occasionally need to remove the User-Agent header. Setting it to `None` won't work as expected:
+推奨はしませんが、場合によってはUser-Agentヘッダーを削除する必要があるかもしれません。`None`に設定しても期待どおりには動作しません。
 
 ```python
 import requests
@@ -136,13 +136,13 @@ response = requests.get('https://httpbin.io/user-agent', headers=headers)
 print(response.json())
 ```
 
-This approach still results in the urllib3 default user agent:
+この方法では、urllib3のデフォルトuser agentになってしまいます。
 
 ```
 {'user-agent': 'python-urllib3/2.2.1'}
 ```
 
-To completely remove the header, use `urllib3.util.SKIP_HEADER`:
+ヘッダーを完全に削除するには、`urllib3.util.SKIP_HEADER`を使用します。
 
 ```python
 import requests
@@ -180,19 +180,19 @@ response = session.send(prepared_request)
 print(response.json())
 ```
 
-Run the above Python code, and you will receive:
+上記のPythonコードを実行すると、次の結果が返されます。
 
 ```
 {'headers': {'Accept-Encoding': ['identity'], 'Host': ['httpbin.io']}}
 ```
 
-## Implement User Agent Rotation in Requests
+## RequestsでUser Agentローテーションを実装する
 
-Using a single user agent for multiple requests can still trigger anti-bot systems. User agent rotation makes your requests appear to come from different browsers.
+複数のリクエストで単一のuser agentを使用すると、それでもアンチボットシステムが作動する可能性があります。user agentローテーションにより、リクエストが異なるブラウザから来ているように見せられます。
 
-Here's how to implement it:
+実装方法は以下のとおりです。
 
-### Step 1: Create a User Agent List
+### Step 1: User Agentリストを作成する
 
 ```python
 user_agents = [
@@ -208,23 +208,23 @@ user_agents = [
 ]
 ```
 
-### Step 2: Select a Random User Agent
+### Step 2: ランダムなUser Agentを選択する
 
-Randomly extracts a user agent string from the array using [`random.choice()`](https://docs.python.org/3/library/random.html#random.choice):
+[`random.choice()`](https://docs.python.org/3/library/random.html#random.choice)を使用して、配列からuser agent文字列をランダムに抽出します。
 
 ```python
 random_user_agent = random.choice(user_agents)
 ```
 
-The above line requires the following import:
+上記の行には、次のimportが必要です。
 
 ```python
 import random
 ```
 
-### Step 3: Use the Random User Agent
+### Step 3: ランダムUser Agentを使用する
 
-Define the header dictionary with the random user agent and use it in the `requests` request:
+ランダムuser agentでヘッダー辞書を定義し、`requests`のリクエストで使用します。
 
 ```python
 headers = {
@@ -238,15 +238,15 @@ response = requests.get('https://httpbin.io/user-agent', headers=headers)
 print(response.json())
 ```
 
-These instructions require this import:
+これらの手順には、次のimportが必要です。
 
 ```python
 import requests
 ```
 
-### Step 4: Complete Implementation
+### Step 4: 完全な実装
 
-This is the entire script code:
+以下がスクリプト全体のコードです。
 
 ```python
 import random
@@ -288,10 +288,10 @@ response = requests.get('https://httpbin.io/user-agent', headers=headers)
 print(response.json())
 ```
 
-Run this script multiple times to see different user agents in action.
+このスクリプトを複数回実行して、異なるuser agentが動作していることを確認してください。
 
 ## Conclusion
 
-Setting appropriate User-Agent headers is essential for successful web scraping with Python Requests. By customizing and rotating user agents, you can make your automated requests appear more natural and avoid basic anti-bot detection.
+Python Requestsで成功するWebスクレイピングを行うには、適切なUser-Agentヘッダーの設定が不可欠です。user agentをカスタマイズしてローテーションすることで、自動化リクエストをより自然に見せ、基本的なアンチボット検知を回避できます。
 
-However, sophisticated anti-scraping systems may still detect your automation through other means. For more robust scraping, consider using proxy rotation alongside user agent rotation, or explore our dedicated [Web Scraper API](https://brightdata.com/products/web-scraper) that handles these complexities for you.
+ただし、高度なアンチスクレイピングシステムは、別の手段で自動化を検知する可能性があります。より堅牢なスクレイピングのためには、user agentローテーションに加えてプロキシローテーションの併用を検討するか、これらの複雑さを代わりに処理する専用の[Web Scraper API](https://brightdata.jp/products/web-scraper)の利用をご検討ください。
