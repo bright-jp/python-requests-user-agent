@@ -1,6 +1,6 @@
 # Python RequestsでUser Agentを設定・変更する方法
 
-[![Bright Data Promo](https://github.com/luminati-io/LinkedIn-Scraper/raw/main/Proxies%20and%20scrapers%20GitHub%20bonus%20banner.png)](https://brightdata.jp/)
+[![Bright Data Promo](https://github.com/bright-jp/LinkedIn-Scraper/raw/main/Proxies%20and%20scrapers%20GitHub%20bonus%20banner.png)](https://brightdata.jp/)
 
 本ガイドでは、安全かつ成功するWebスクレイピングのために、Python RequestsでUser-Agentヘッダーを設定してローテーションする方法を解説します。
 
